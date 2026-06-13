@@ -1,0 +1,80 @@
+/*
+Definition of special linked list:
+struct ListNode
+{
+    int val;
+    ListNode *next;
+    ListNode *child;
+    ListNode()
+    {
+        val = 0;
+        next = NULL;
+        child = NULL;
+    }
+    ListNode(int data1)
+    {
+        val = data1;
+        next = NULL;
+        child = NULL;
+    }
+    ListNode(int data1, ListNode *next1, ListNode* next2)
+    {
+        val = data1;
+        next = next1;
+        child = next1;
+    }
+};
+*/
+
+class Solution {
+public:
+   ListNode* convertArrToLinkedList(vector<int>& arr) {
+        /* Create a dummy node to serve as
+         the head of the linked list */
+        ListNode* dummyNode = new ListNode(-1);
+        ListNode* temp = dummyNode;
+
+        /* Iterate through the vector and
+         create nodes with vector elements */
+        for (int i=0; i < arr.size(); i++) {
+            // Create a new node with the vector element
+            temp->child = new ListNode(arr[i]);
+            
+            // Update the temporary pointer
+            temp = temp->child;
+        }
+        
+        /* Return the linked list starting
+         from the next of the dummy node */
+        return dummyNode->child;
+    }
+
+              ListNode* flattenLinkedList(ListNode* head) {
+        vector<int> arr;
+
+        // Traverse through the linked list
+        while (head != nullptr) {
+            /* Traverse through the child
+             nodes of each head node */
+            ListNode* t2 = head;
+            
+            while (t2 != nullptr) {
+                // Store each node's data in the array
+                arr.push_back(t2->val);
+                
+                // Move to the next child node
+                t2 = t2->child;
+            }
+            // Move to the next head node
+            head = head->next;
+        }
+
+        // Sort the array containing node values
+        sort(arr.begin(), arr.end());
+
+        // Convert the sorted array back to a linked list
+        return convertArrToLinkedList(arr);
+    
+
+    }
+};
